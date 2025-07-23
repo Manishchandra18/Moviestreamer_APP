@@ -14,6 +14,7 @@ import {
 import { useEffect, useState } from 'react';
 import api from './api';
 import { MovieDialog } from './components/MovieDialog';
+import { getRequestToken } from "./api";
 
 function paginate<T>(array: T[], page: number, perPage: number) {
   const start = (page - 1) * perPage;
@@ -61,6 +62,12 @@ function LandingPage({ onExplore, onBack }: {
     setDialogOpen(true);
   };
 
+  const handleLogin = async () => {
+    const token = await getRequestToken();
+    const redirectUrl = encodeURIComponent(window.location.origin + "/auth/callback");
+    window.location.href = `https://www.themoviedb.org/authenticate/${token}?redirect_to=${redirectUrl}`;
+  };
+
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#111', color: 'white' }}>
       <AppBar position="sticky" sx={{ bgcolor: '#181818', color: 'white' }} elevation={3}>
@@ -79,13 +86,24 @@ function LandingPage({ onExplore, onBack }: {
                 Back to Landing
               </Button>
             )}
+            <Button onClick={handleLogin} color="inherit">Login with TMDB</Button>
           </Box>
         </Toolbar>
       </AppBar>
 
       <Box sx={{ width: '100%', px: 0, pt: 6, pb: 2, bgcolor: '#111' }}>
         <Container maxWidth={false} disableGutters sx={{ width: '100%' }}>
-          <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', mb: 6, px: { xs: 2, md: 8 } }}>
+          <Box
+            sx={{
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center', 
+              flexWrap: 'wrap',
+              mb: 6,
+              px: 2,
+            }}
+          >
             <Box sx={{ flex: 1, minWidth: 320 }}>
               <Typography variant="h2" fontWeight={900} sx={{ mb: 2, letterSpacing: 2, color: 'white' }}>
                 Welcome to MovieStreamX

@@ -1,4 +1,4 @@
-import { Grid, Card, CardMedia, CardContent, Typography, Skeleton, Container, IconButton } from "@mui/material";
+import { Grid, Card, CardMedia, CardContent, Typography, Skeleton, Container, IconButton  } from "@mui/material";
 import { motion } from "framer-motion";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';

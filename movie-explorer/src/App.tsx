@@ -9,6 +9,46 @@ import { SearchBar } from "./components/SearchBar";
 import { MovieGrid } from "./components/MovieGrid";
 import { MovieDialog } from "./components/MovieDialog";
 import LandingPage from "./LandingPage";
+import AuthCallback  from "./AuthCallback.tsx";
+import { getAccountDetails, getFavoriteMovies } from "./api";
+
+function MyFavorites() {
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const sessionId = localStorage.getItem("session_id");
+    if (!sessionId) return;
+
+    async function fetchFavorites() {
+      setLoading(true);
+      if (!sessionId) {
+        setLoading(false);
+        return;
+      }
+      const account = await getAccountDetails(sessionId as string);
+      const favs = await getFavoriteMovies(account.id, sessionId as string);
+      setFavorites(favs);
+      setLoading(false);
+    }
+
+    fetchFavorites();
+  }, []);
+
+  if (loading) return <div>Loading favorites...</div>;
+  if (!favorites.length) return <div>No favorites found.</div>;
+
+  return (
+    <div>
+      <h2>My Favorites</h2>
+      <ul>
+        {(favorites as { id: number; title: string }[]).map(movie => (
+          <li key={movie.id}>{movie.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 function Explorer() {
   const navigate = useNavigate();
@@ -90,7 +130,15 @@ function Explorer() {
   return (
     <Container sx={{ py: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Button variant="outlined" color="primary" onClick={() => navigate("/")}>Go back to Home</Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          onClick={() => navigate("/")}
+          sx={{ position: 'absolute', top: 16, left: 16, zIndex: 20 }}
+          disabled={!!query} // Disable when searchValue is not empty
+        >
+          Go back to Home
+        </Button>
       </Box>
       <SearchBar
         value={query}
@@ -174,7 +222,9 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage onExplore={() => window.location.href = '/explorer'} onBack={undefined} />} />
         <Route path="/explorer" element={<Explorer />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
       </Routes>
+      {localStorage.getItem("session_id") && <MyFavorites />}
     </BrowserRouter>
   );
 }
