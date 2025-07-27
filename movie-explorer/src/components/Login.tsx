@@ -30,7 +30,7 @@ export default function Login() {
 
       if (user) {
         localStorage.setItem("currentUser", user.username);
-        navigate("/", { replace: true }); // Replacing full page reload
+        window.location.href = "/"; // <-- Use this for a full reload
         return {};
       }
 
