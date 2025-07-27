@@ -20,17 +20,33 @@ export function registerUser(profile: Omit<UserProfile, 'favorites'>) {
   return newUser;
 }
 
+// export function getAllUsers(): UserProfile[] {
+//   const users = localStorage.getItem(USERS_KEY);
+//   return users ? JSON.parse(users) : [];
+// }
+
 export function getAllUsers(): UserProfile[] {
-  const users = localStorage.getItem(USERS_KEY);
+  const users = localStorage.getItem('users');
+  console.log("getAllUsers: raw users =", users);
   return users ? JSON.parse(users) : [];
 }
 
+// export function getCurrentUser(): UserProfile | null {
+//   const username = localStorage.getItem('currentUser');
+//   if (!username) return null;
+//   return getAllUsers().find(u => u.username === username) || null;
+// }
+
 export function getCurrentUser(): UserProfile | null {
   const username = localStorage.getItem('currentUser');
+  console.log("getCurrentUser: username =", username);
+  const users = getAllUsers();
+  console.log("getCurrentUser: users =", users);
   if (!username) return null;
-  return getAllUsers().find(u => u.username === username) || null;
+  const user = users.find(u => u.username === username) || null;
+  console.log("getCurrentUser: found user =", user);
+  return user;
 }
-
 export function updateCurrentUserProfile(updates: Partial<Omit<UserProfile, 'username' | 'favorites'>>) {
   const users = getAllUsers();
   const username = localStorage.getItem('currentUser');
