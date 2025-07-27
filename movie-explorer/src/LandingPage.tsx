@@ -102,7 +102,7 @@ function LandingPage({ onBack }: { onBack?: () => void }) {
               <Typography variant="h5" color="grey.400" sx={{ mb: 4, maxWidth: 600 }}>
                 Discover, favorite, and explore the best movies and series. Enjoy a cinematic experience from your desktop.
               </Typography>
-              <Button onClick={() => navigate('/explorer')}>
+              <Button onClick={() => { window.location.href = "/explorer"; }}>
               Go to Explorer
              </Button>
             </Box>
