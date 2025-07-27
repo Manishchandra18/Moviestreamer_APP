@@ -12,10 +12,13 @@ function RequireAuth({ children }: { children: JSX.Element }) {
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
+  
   return children;
 }
 
 function App() {
+  console.log("RequireAuth: currentUser =", localStorage.getItem("currentUser"));
+  console.log("RequireAuth: users =", localStorage.getItem("users"));
   return (
     <BrowserRouter>
       <Routes>
