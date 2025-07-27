@@ -24,9 +24,9 @@ function App() {
         <Route
           path="/explorer"
           element={
-            <RequireAuth>
+            
               <Explorer />
-            </RequireAuth>
+            
           }
         />
         <Route
