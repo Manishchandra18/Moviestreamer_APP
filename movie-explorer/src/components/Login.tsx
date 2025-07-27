@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { getAllUsers } from "../utils/user";
 
-// Define your MUI theme (optional)
+
 const theme = createTheme({
   palette: {
     mode: "dark",
@@ -20,22 +20,20 @@ const providers = [
 export default function Login() {
   const navigate = useNavigate();
 
-  // Updated signIn function
+
   const signIn = async (provider: any, formData: FormData) => {
     if (provider.id === "credentials") {
-      // Toolpad uses "email" field for the username
+      
       const username = (formData.get("email") as string || "").trim();
       const password = (formData.get("password") as string || "").trim();
 
       const users = getAllUsers();
-      console.log("Login attempt:", { username, password });
-      console.log("Users in localStorage:", users);
 
       const user = users.find(u => u.username === username && u.password === password);
 
       if (user) {
         localStorage.setItem("currentUser", user.username);
-        setTimeout(() => navigate("/"), 500);
+        navigate("/", { replace: true });
         return {};
       }
 
