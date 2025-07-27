@@ -3,7 +3,7 @@ import LandingPage from "./LandingPage";
 import LoginPage from "./components/Login";
 import Register from "./components/Register";
 import Explorer from "./Explorer";
-import { getCurrentUser } from "./utils/favourites";
+import { getCurrentUser } from "./utils/user";
 import type { JSX } from "react";
 
 function RequireAuth({ children }: { children: JSX.Element }) {
