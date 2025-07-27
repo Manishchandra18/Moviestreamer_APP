@@ -32,7 +32,7 @@ export default function Login() {
 
       if (user) {
         localStorage.setItem("currentUser", user.username);
-        setTimeout(() => navigate("/"), 500);
+        window.location.href = "/"; 
         return {};
       }
 
