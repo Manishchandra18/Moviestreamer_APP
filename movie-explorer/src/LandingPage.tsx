@@ -14,17 +14,14 @@ import {
 import { useEffect, useState } from 'react';
 import api from './api';
 import { MovieDialog } from './components/MovieDialog';
-import { getRequestToken } from "./api";
+import { useNavigate } from "react-router-dom";
 
 function paginate<T>(array: T[], page: number, perPage: number) {
   const start = (page - 1) * perPage;
   return array.slice(start, start + perPage);
 }
 
-function LandingPage({ onExplore, onBack }: {
-  onExplore: () => void;
-  onBack?: () => void;
-}) {
+function LandingPage({ onBack }: { onBack?: () => void }) {
   const [featured, setFeatured] = useState<any[]>([]);
   const [topRated, setTopRated] = useState<any[]>([]);
   const [series, setSeries] = useState<any[]>([]);
@@ -35,6 +32,7 @@ function LandingPage({ onExplore, onBack }: {
   const [selectedMovie, setSelectedMovie] = useState<any>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const perPage = 5;
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function fetchLanding() {
@@ -62,46 +60,39 @@ function LandingPage({ onExplore, onBack }: {
     setDialogOpen(true);
   };
 
-  const handleLogin = async () => {
-    const token = await getRequestToken();
-    const redirectUrl = encodeURIComponent(window.location.origin + "/auth/callback");
-    window.location.href = `https://www.themoviedb.org/authenticate/${token}?redirect_to=${redirectUrl}`;
-  };
-
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#111', color: 'white' }}>
+    <Box sx={{ minHeight: '100vh', bgcolor: '#111', color: 'white', width: '100vw', overflowX: 'hidden' }}>
       <AppBar position="sticky" sx={{ bgcolor: '#181818', color: 'white' }} elevation={3}>
         <Toolbar>
           <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 800, letterSpacing: 2 }}>
             MovieStreamX
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
-            {onExplore && (
-              <Button color="inherit" onClick={onExplore} sx={{ fontWeight: 600 }}>
-                Explorer
-              </Button>
-            )}
+            
+           <Button color="inherit" size="large" onClick={() => navigate('/explorer')}>
+            To Explorer
+           </Button>
+            
             {onBack && (
               <Button color="inherit" onClick={onBack} sx={{ fontWeight: 600 }}>
                 Back to Landing
               </Button>
             )}
-            <Button onClick={handleLogin} color="inherit">Login with TMDB</Button>
           </Box>
         </Toolbar>
       </AppBar>
 
-      <Box sx={{ width: '100%', px: 0, pt: 6, pb: 2, bgcolor: '#111' }}>
-        <Container maxWidth={false} disableGutters sx={{ width: '100%' }}>
+      <Box sx={{ width: '100vw', pt: 6, pb: 0, bgcolor: '#111', overflowX: 'hidden' }}>
+        <Container maxWidth={false} disableGutters sx={{ width: '100vw', minHeight: '100vh', px: 0, mx: 0 }}>
           <Box
             sx={{
               width: '100%',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center', 
+              justifyContent: 'center',
               flexWrap: 'wrap',
               mb: 6,
-              px: 2,
+              px: 0,
             }}
           >
             <Box sx={{ flex: 1, minWidth: 320 }}>
@@ -111,9 +102,9 @@ function LandingPage({ onExplore, onBack }: {
               <Typography variant="h5" color="grey.400" sx={{ mb: 4, maxWidth: 600 }}>
                 Discover, favorite, and explore the best movies and series. Enjoy a cinematic experience from your desktop.
               </Typography>
-              <Button variant="contained" color="primary" size="large" onClick={onExplore} sx={{ fontWeight: 700, px: 5, py: 1.5, borderRadius: 3, bgcolor: '#333', color: 'white', '&:hover': { bgcolor: '#444' } }}>
-                Go to Explorer
-              </Button>
+              <Button onClick={() => navigate('/explorer')}>
+              Go to Explorer
+             </Button>
             </Box>
           </Box>
 
@@ -123,7 +114,7 @@ function LandingPage({ onExplore, onBack }: {
             </Box>
           ) : (
             <>
-              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, mt: 6, color: 'white', px: { xs: 2, md: 8 } }}>Featured Movies</Typography>
+              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, mt: 6, color: 'white' }}>Featured Movies</Typography>
               <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', justifyContent: 'center', mb: 2 }}>
                 {paginate(featured, featuredPage, perPage).map((movie) => (
                   <Card key={movie.id} sx={{ minWidth: 240, maxWidth: 260, bgcolor: '#181818', color: 'white', borderRadius: 3, boxShadow: 6, mx: 1, mb: 2, cursor: 'pointer' }} onClick={() => handleCardClick(movie)}>
@@ -152,11 +143,21 @@ function LandingPage({ onExplore, onBack }: {
                     page={featuredPage}
                     onChange={(_, val) => setFeaturedPage(val)}
                     color="primary"
+                    sx={{
+                      '& .MuiPaginationItem-root': {
+                        color: 'white',
+                        borderColor: 'white',
+                      },
+                      '& .Mui-selected': {
+                        backgroundColor: '#333',
+                        color: 'white',
+                      },
+                    }}
                   />
                 </Box>
               )}
 
-              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, mt: 6, color: 'white', px: { xs: 2, md: 8 } }}>Top Rated Movies</Typography>
+              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, mt: 6, color: 'white' }}>Top Rated Movies</Typography>
               <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', justifyContent: 'center', mb: 2 }}>
                 {paginate(topRated, topRatedPage, perPage).map((movie) => (
                   <Card key={movie.id} sx={{ minWidth: 240, maxWidth: 260, bgcolor: '#181818', color: 'white', borderRadius: 3, boxShadow: 6, mx: 1, mb: 2, cursor: 'pointer' }} onClick={() => handleCardClick(movie)}>
@@ -185,11 +186,21 @@ function LandingPage({ onExplore, onBack }: {
                     page={topRatedPage}
                     onChange={(_, val) => setTopRatedPage(val)}
                     color="primary"
+                    sx={{
+                      '& .MuiPaginationItem-root': {
+                        color: 'white',
+                        borderColor: 'white',
+                      },
+                      '& .Mui-selected': {
+                        backgroundColor: '#333',
+                        color: 'white',
+                      },
+                    }}
                   />
                 </Box>
               )}
 
-              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, mt: 6, color: 'white', px: { xs: 2, md: 8 } }}>Top Rated Series</Typography>
+              <Typography variant="h4" sx={{ fontWeight: 700, mb: 2, mt: 6, color: 'white' }}>Top Rated Series</Typography>
               <Box sx={{ display: 'flex', gap: 3, flexWrap: 'wrap', justifyContent: 'center', mb: 2 }}>
                 {paginate(series, seriesPage, perPage).map((tv) => (
                   <Card key={tv.id} sx={{ minWidth: 240, maxWidth: 260, bgcolor: '#181818', color: 'white', borderRadius: 3, boxShadow: 6, mx: 1, mb: 2, cursor: 'pointer' }} onClick={() => handleCardClick(tv)}>
@@ -218,6 +229,16 @@ function LandingPage({ onExplore, onBack }: {
                     page={seriesPage}
                     onChange={(_, val) => setSeriesPage(val)}
                     color="primary"
+                    sx={{
+                      '& .MuiPaginationItem-root': {
+                        color: 'white',
+                        borderColor: 'white',
+                      },
+                      '& .Mui-selected': {
+                        backgroundColor: '#333',
+                        color: 'white',
+                      },
+                    }}
                   />
                 </Box>
               )}

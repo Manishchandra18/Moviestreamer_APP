@@ -83,7 +83,7 @@ export const MovieGrid = ({ movies, loading, onSelect, favorites = [], onToggleF
                       sx={{ position: 'absolute', top: 8, right: 8, zIndex: 2, color: isFavorite ? 'error.main' : 'grey.400' }}
                       aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
                     >
-                      {isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                      {isFavorite ? <FavoriteIcon color="error" /> : <FavoriteBorderIcon />}
                     </IconButton>
                     <CardMedia
                       component="img"
