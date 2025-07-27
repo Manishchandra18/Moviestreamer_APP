@@ -2,7 +2,6 @@ import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
 import { createTheme } from "@mui/material/styles";
 import { getAllUsers } from "../utils/user";
-import { useNavigate } from "react-router-dom"; 
 
 
 const theme = createTheme({
@@ -18,10 +17,12 @@ const providers = [
 ];
 
 export default function Login() {
-  const navigate = useNavigate(); 
+  
+
 
   const signIn = async (provider: any, formData: FormData) => {
     if (provider.id === "credentials") {
+      
       const username = (formData.get("email") as string || "").trim();
       const password = (formData.get("password") as string || "").trim();
       const users = getAllUsers();
@@ -30,7 +31,7 @@ export default function Login() {
 
       if (user) {
         localStorage.setItem("currentUser", user.username);
-        navigate("/", { replace: true }); // Replacing full page reload
+        window.location.href = "/"; 
         return {};
       }
 
