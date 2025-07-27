@@ -55,10 +55,9 @@ function Explorer() {
       if (storedFavs) {
         setFavorites(JSON.parse(storedFavs));
       }
-    } else {
-      navigate("/login");
     }
-  }, [navigate]);
+    // No else/redirect needed!
+  }, []);
 
   useEffect(() => {
     if (query) {
