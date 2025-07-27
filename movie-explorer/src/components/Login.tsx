@@ -26,14 +26,13 @@ export default function Login() {
       
       const username = (formData.get("email") as string || "").trim();
       const password = (formData.get("password") as string || "").trim();
-
       const users = getAllUsers();
 
       const user = users.find(u => u.username === username && u.password === password);
 
       if (user) {
         localStorage.setItem("currentUser", user.username);
-        navigate("/", { replace: true });
+        setTimeout(() => navigate("/"), 500);
         return {};
       }
 
