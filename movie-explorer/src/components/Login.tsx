@@ -1,6 +1,5 @@
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { SignInPage } from "@toolpad/core/SignInPage";
-import { useNavigate } from "react-router-dom";
 import { createTheme } from "@mui/material/styles";
 import { getAllUsers } from "../utils/user";
 
@@ -18,7 +17,7 @@ const providers = [
 ];
 
 export default function Login() {
-  const navigate = useNavigate();
+  
 
 
   const signIn = async (provider: any, formData: FormData) => {
