@@ -96,7 +96,7 @@ function LandingPage({ onBack }: { onBack?: () => void }) {
             }}
           >
             <Box sx={{ flex: 1, minWidth: 320 }}>
-              <Typography variant="h2" fontWeight={900} sx={{ mb: 2, letterSpacing: 2, color: 'white' }}>
+              <Typography variant="h2" fontWeight={900} sx={{ mb: 2, letterSpacing: 2, color: 'white' ,mt:10}}>
                 Welcome to MovieStreamX
               </Typography>
               <Typography variant="h5" color="grey.400" sx={{ mb: 4, maxWidth: 600 }}>
