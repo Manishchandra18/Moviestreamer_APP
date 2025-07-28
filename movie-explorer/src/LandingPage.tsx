@@ -64,7 +64,7 @@ function LandingPage({ onBack }: { onBack?: () => void }) {
     <Box sx={{ minHeight: '100vh', bgcolor: '#111', color: 'white', width: '100vw', overflowX: 'hidden' }}>
       <AppBar position="fixed" sx={{ bgcolor: '#181818', color: 'white' }} elevation={3}>
         <Toolbar>
-          <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 800, letterSpacing: 2 ,mt:1}}>
+          <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 800, letterSpacing: 2 ,mt:3}}>
             MovieStreamX
           </Typography>
           <Box sx={{ display: 'flex', gap: 2 }}>
