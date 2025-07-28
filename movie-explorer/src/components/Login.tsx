@@ -29,7 +29,7 @@ export default function Login() {
 
       if (user) {
         localStorage.setItem("currentUser", user.username);
-        window.location.href = "/"; // <-- Use this for a full reload
+        window.location.href = "/"; // for a full page reload
         return {};
       }
 
