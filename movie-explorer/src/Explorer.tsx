@@ -8,7 +8,7 @@ import api from "./api";
 import { SearchBar } from "./components/SearchBar";
 import { MovieGrid } from "./components/MovieGrid";
 import { MovieDialog } from "./components/MovieDialog";
-import { getCurrentUser } from "./utils/favourites";
+import { getCurrentUser, updateCurrentUserFavorites } from "./utils/user";
 
 function Explorer() {
   const navigate = useNavigate();
@@ -51,9 +51,17 @@ function Explorer() {
   useEffect(() => {
     const user = getCurrentUser();
     if (user) {
-      const storedFavs = localStorage.getItem(`favorites_${user.username}`);
-      if (storedFavs) {
-        setFavorites(JSON.parse(storedFavs));
+      if (user.favorites && user.favorites.length > 0) {
+        setFavorites(user.favorites);
+      } else {
+      
+        const storedFavs = localStorage.getItem(`favorites_${user.username}`);
+        if (storedFavs) {
+          const parsedFavs = JSON.parse(storedFavs);
+          setFavorites(parsedFavs);
+          // Update user profile with localStorage data
+          updateCurrentUserFavorites(parsedFavs);
+        }
       }
     }
     // No else/redirect needed!
@@ -88,6 +96,7 @@ function Explorer() {
       const exists = prev.find((fav) => fav.id === movie.id);
       const updated = exists ? prev.filter((fav) => fav.id !== movie.id) : [...prev, movie];
       localStorage.setItem(`favorites_${user.username}`, JSON.stringify(updated));
+      updateCurrentUserFavorites(updated);
       return updated;
     });
   };
