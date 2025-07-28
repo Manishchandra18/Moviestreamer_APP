@@ -62,7 +62,7 @@ function LandingPage({ onBack }: { onBack?: () => void }) {
 
   return (
     <Box sx={{ minHeight: '100vh', bgcolor: '#111', color: 'white', width: '100vw', overflowX: 'hidden' }}>
-      <AppBar position="sticky" sx={{ bgcolor: '#181818', color: 'white' }} elevation={3}>
+      <AppBar position="fixed" sx={{ bgcolor: '#181818', color: 'white' }} elevation={3}>
         <Toolbar>
           <Typography variant="h5" sx={{ flexGrow: 1, fontWeight: 800, letterSpacing: 2 }}>
             MovieStreamX

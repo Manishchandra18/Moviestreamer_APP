@@ -64,7 +64,7 @@ function Explorer() {
         }
       }
     }
-    // No else/redirect needed!
+    
   }, []);
 
   useEffect(() => {
